@@ -20,15 +20,27 @@
       "esri/WebMap",
       "esri/views/MapView",
       "esri/widgets/ScaleBar",
-      "esri/widgets/Legend"
+      "esri/widgets/Legend",
+      "esri/layers/FeatureLayer",
+      "esri/PopupTemplate",
+      "esri/popup/content/CustomContent",
+      "esri/widgets/Search",
+      "esri/tasks/support/Query",
+      "esri/tasks/QueryTask"
 
-    ], function(esriConfig, WebMap, MapView, ScaleBar, Legend) {
+    ], function(esriConfig, WebMap, MapView, ScaleBar, Legend,PopupTemplate,
+      CustomContent,
+      Search,
+      Query,
+      QueryTask, FeatureLayer) {
 
       esriConfig.apiKey = "AAPK0829df0f0f574ed5afd9d23566d2dd09pswVxwLHZtQFYE9xsspfZ0YNLZpKEU6PxpJ3ne7UK5j2ZBnqpN8fg6rJIBi_QXf8";
 
+
+
       const webmap = new WebMap({
         portalItem: {
-          id: "b4ef211f4f3240c59bbefda0577710ee"
+          id: "f132c6a2c359455aae58dce15f84ef02"
         }
       });
 
@@ -37,6 +49,19 @@
         map: webmap
 
       });
+
+       // Define a pop-up for provinces
+       const popupProvinces = {
+        "title": "Province",
+        "content": "<b>Trail:</b> {PRENAME}<br>"
+      }
+      const provinces = new FeatureLayer({
+        url: "https://utility.arcgis.com/usrsvcs/servers/4831acb86f3c43c483dc67ff0411d43a/rest/services/Geom99lab2/ehillmanCanada/MapServer/0",
+        outFields: ["PRENAME"],
+        popupTemplate: popupProvinces
+      });
+
+      map.add(provinces);
 
       const scalebar = new ScaleBar({
         view: view
